@@ -4,39 +4,59 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.openqa.selenium.By;
-import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.opera.OperaDriver;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
-import static org.openqa.selenium.support.ui.ExpectedCondition.*;
-import static org.openqa.selenium.support.ui.ExpectedConditions.titleIs;
+import java.util.List;
 
 public class HW_2_3 {
     private WebDriver driver;
     private WebDriverWait wait;
+    private OperaDriver opDriver;
+
     @Before
-    public void start(){
-        driver=new OperaDriver();
-        wait = new WebDriverWait(driver,10);
+    public void start() {
+        opDriver = new OperaDriver();
+
     }
+
     @Test
-    public void Test_Open_Window(){
+    public void Test_ie() {
 
-        driver.navigate().to(" http://localhost/litecart/admin/");
-        driver.findElement(By.name("username")).sendKeys("admin");
-        driver.findElement(By.name("password")).sendKeys("admin");
-        driver.findElement(By.name("login")).click();
-        wait.until(titleIs("My Store"));
-        System.out.println("HW_2_3");
+        opDriver.navigate().to(" http://localhost/litecart/admin/");
+        System.out.println("Открытие браузера");
+        opDriver.findElement(By.name("username")).sendKeys("admin");
+        opDriver.findElement(By.name("password")).sendKeys("admin");
+        opDriver.findElement(By.name("login")).click();
+        System.out.println("Вошли в админ");
 
+        List<WebElement> listElement = opDriver.findElements(By.cssSelector("li#app- > a"));
+
+        for (int i= 0 ; i<listElement.size();i++){
+            List<WebElement> findElements = opDriver.findElements(By.cssSelector("li#app- > a"));
+            findElements.get(i).click();
+            List<WebElement> subListElemt = opDriver.findElements(By.cssSelector("li#app-  li a"));
+            for(int j= 0 ; j<subListElemt.size();j++){
+                List<WebElement> newSubListElemt = opDriver.findElements(By.cssSelector("li#app-  li a"));
+                newSubListElemt.get(j).click();
+            }
+        }
+
+        opDriver.close();
+        System.out.println("Закрытие браузера");
+
+    }
+
+    boolean areElementsPresent(WebDriver driver, By locator) {
+        return driver.findElements(locator).size() > 0;
     }
 
     @After
-    public void stop(){
-        driver.quit();
-        driver=null;
+    public void stop() {
+        //driver.quit();
+        driver = null;
     }
 
 }
