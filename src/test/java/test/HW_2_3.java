@@ -41,6 +41,11 @@ public class HW_2_3 {
             for(int j= 0 ; j<subListElemt.size();j++){
                 List<WebElement> newSubListElemt = opDriver.findElements(By.cssSelector("li#app-  li a"));
                 newSubListElemt.get(j).click();
+                if (areElementsPresent(opDriver,By.cssSelector("h1"))){
+                    System.out.println("На страницк есть H1");
+                } else {
+                    System.out.println("На странице нет H1");
+                }
             }
         }
 
