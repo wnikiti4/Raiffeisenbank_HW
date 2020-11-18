@@ -48,7 +48,7 @@ public class HW_2_8 {
         System.out.println("Для "+idDiv);
         for (int i= 0 ; i<opDriver.findElements(By.cssSelector("div#"+idDiv+" li.product.column")).size();i++){
             List<WebElement> stickers = opDriver.findElements(By.cssSelector("div"+idDiv+" li.product.column:nth-of-type("+i+") div.sticker"));
-            if(stickers.size() > 1 ){
+            if(stickers.size() != 1 ){
                 try {
                     throw new failTest("Product has more than 2 stickers");
                 } catch (HW_2_8.failTest failTest) {
