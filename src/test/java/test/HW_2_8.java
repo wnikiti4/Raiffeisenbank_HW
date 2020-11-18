@@ -33,8 +33,9 @@ public class HW_2_8 {
         System.out.println("Закрытие браузера");
 
     }
-    static class failTest extends Exception{
-        public failTest(String message){
+
+    static class failTest extends Exception {
+        public failTest(String message) {
             super(message);
         }
     }
@@ -44,18 +45,19 @@ public class HW_2_8 {
     }
 
     //box-latest-products
-    void checkStickersBySelector(String idDiv){
-        System.out.println("Для "+idDiv);
-        for (int i= 0 ; i<opDriver.findElements(By.cssSelector("div#"+idDiv+" li.product.column")).size();i++){
-            List<WebElement> stickers = opDriver.findElements(By.cssSelector("div"+idDiv+" li.product.column:nth-of-type("+i+") div.sticker"));
-            if(stickers.size() != 1 ){
+    void checkStickersBySelector(String idDiv) {
+        System.out.println("Для " + idDiv);
+        for (int i = 0; i < opDriver.findElements(By.cssSelector("div#" + idDiv + " li.product.column")).size(); i++) {
+            int a = i+1; // ТК list начианается с 0 а для селектора это 1 ииии я не очень понимаю почему
+            List<WebElement> stickers = opDriver.findElements(By.cssSelector("div#" + idDiv + " li.product.column:nth-of-type(" + a + ") div.sticker"));
+            if (stickers.size() != 1) {
                 try {
                     throw new failTest("Product has more than 2 stickers");
                 } catch (HW_2_8.failTest failTest) {
                     failTest.printStackTrace();
                 }
             }
-            System.out.println("У "+i+" элемента только 1 стикер");
+            System.out.println("У " + a + " элемента только " + stickers.size() + " стикер");
         }
 
     }
