@@ -47,11 +47,16 @@ public class HW_2_8 {
     }
 
     @Test
-    void Test_2(){
+    public void Test_2(){
         loginToAdmin();
         opDriver.navigate().to("http://localhost/litecart/admin/?app=geo_zones&doc=geo_zones");
-        List<WebElement> listElement = opDriver.findElements(By.cssSelector("tr.row td:nth-of-type(3) a"));
-        listElement.get(1).click();
+        List<WebElement> listElements = opDriver.findElements(By.cssSelector("tr.row td:nth-of-type(3) a"));
+        for(int i = 0 ; i < listElements.size(); i++) {
+            sortCheck(listElements.get(i).getAttribute("href"), "table.dataTable td:nth-of-type(3) option[selected=\"selected\"]", "text");
+            opDriver.navigate().to("http://localhost/litecart/admin/?app=geo_zones&doc=geo_zones");
+            //почему такая боль с протуханием данных как можно изменить эту конструкцию
+            listElements = opDriver.findElements(By.cssSelector("tr.row td:nth-of-type(3) a"));
+        }
     }
 
 
