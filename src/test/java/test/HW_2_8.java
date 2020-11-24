@@ -23,25 +23,35 @@ public class HW_2_8 {
 
     @Test
     public void Test_1() {
-        loginToAdmin();
-        String href = "http://localhost/litecart/admin/?app=countries&doc=countries";
-        String selector = "tr.row td:nth-of-type(5)";
-        String attrebut = "innerText";
-        sortCheck(href, selector, attrebut);
-        System.out.println("Первая проверка завершена");
+        String maskName = "b";
+        String maskCode = "00002";
+        String phone = '+'+ maskCode + maskCode;
+        String email = maskName+'@'+maskName+'.'+maskName;
+
+ //       loginToAdmin();
+        String href = "http://localhost/litecart/en/create_account";
         opDriver.navigate().to(href);
-        List<WebElement> listZonesOtherThatZero = opDriver.findElements(By.cssSelector("tr.row td:nth-of-type(6)"));
-        for (int i = 0; i < listZonesOtherThatZero.size(); i++) {
-            if (!listZonesOtherThatZero.get(i).getAttribute("innerText").equals("0")) {
-                int i2 = i + 2;
-                String hrefB = opDriver.findElement(By.cssSelector("tr.row:nth-of-type(" + i2 + ") td:nth-of-type(5) a")).getAttribute("href");
-                System.out.println("Упал в страну под номером:" + i2 + " с именем " + opDriver.findElement(By.cssSelector("tr.row:nth-of-type(" + i2 + ") td:nth-of-type(5)")).getAttribute("innerText"));
-                sortCheck(hrefB, "table.dataTable td:nth-of-type(3) input[type=\"hidden\"]", "value");
-                opDriver.navigate().to(href);
-                listZonesOtherThatZero = opDriver.findElements(By.cssSelector("tr.row td:nth-of-type(6)"));
-            }
-        }
-        System.out.println();
+       opDriver.findElement(By.cssSelector("input[name=\"firstname\"]")).sendKeys(maskName);
+        opDriver.findElement(By.cssSelector("input[name=\"lastname\"]")).sendKeys(maskName);
+        opDriver.findElement(By.cssSelector("input[name=\"address1\"]")).sendKeys(maskName);
+        opDriver.findElement(By.cssSelector("input[name=\"postcode\"]")).sendKeys(maskCode);
+        opDriver.findElement(By.cssSelector("input[name=\"city\"]")).sendKeys(maskCode);
+        opDriver.findElement(By.cssSelector(".select2-selection__arrow")).click();
+        opDriver.findElement(By.cssSelector("li[id*=\"US\"]")).click();
+        opDriver.findElement(By.cssSelector("input[name=\"email\"]")).sendKeys(email);
+        opDriver.findElement(By.cssSelector("input[name=\"phone\"]")).sendKeys(phone);
+        opDriver.findElement(By.cssSelector("input[name=\"password\"]")).sendKeys(phone);
+        opDriver.findElement(By.cssSelector("input[name=\"confirmed_password\"]")).sendKeys(phone);
+        opDriver.findElement(By.cssSelector("[name=\"create_account\"]")).click();
+        System.out.println("Пользователь зарегестрирован");
+        opDriver.findElement(By.cssSelector("a[href=\"http://localhost/litecart/en/logout\"]")).click();
+        System.out.println("Вышли");
+        opDriver.findElement(By.cssSelector("[name=\"email\"]")).sendKeys(email);
+        opDriver.findElement(By.cssSelector("[name=\"password\"]")).sendKeys(phone);
+        opDriver.findElement(By.cssSelector("[name=\"login\"]")).click();
+        System.out.println("Зашили");
+        opDriver.findElement(By.cssSelector("a[href=\"http://localhost/litecart/en/logout\"]")).click();
+        System.out.println("Вышли");
         opDriver.close();
         System.out.println("Закрытие браузера");
     }
@@ -49,14 +59,7 @@ public class HW_2_8 {
     @Test
     public void Test_2(){
         loginToAdmin();
-        opDriver.navigate().to("http://localhost/litecart/admin/?app=geo_zones&doc=geo_zones");
-        List<WebElement> listElements = opDriver.findElements(By.cssSelector("tr.row td:nth-of-type(3) a"));
-        for(int i = 0 ; i < listElements.size(); i++) {
-            sortCheck(listElements.get(i).getAttribute("href"), "table.dataTable td:nth-of-type(3) option[selected=\"selected\"]", "text");
-            opDriver.navigate().to("http://localhost/litecart/admin/?app=geo_zones&doc=geo_zones");
-            //почему такая боль с протуханием данных как можно изменить эту конструкцию
-            listElements = opDriver.findElements(By.cssSelector("tr.row td:nth-of-type(3) a"));
-        }
+
     }
 
 
