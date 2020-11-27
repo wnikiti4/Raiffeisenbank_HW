@@ -14,8 +14,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import static org.openqa.selenium.support.ui.ExpectedConditions.attributeToBe;
-import static org.openqa.selenium.support.ui.ExpectedConditions.numberOfElementsToBeLessThan;
+import static org.openqa.selenium.support.ui.ExpectedConditions.*;
 
 public class HW_2_8 {
     private OperaDriver opDriver;
@@ -29,7 +28,7 @@ public class HW_2_8 {
     @Test
     public void Test_1() {
         WebDriverWait wait = new WebDriverWait(opDriver, 10);
-        for (int i = 1; i <= 3; i++) {
+        for (int i = 1; i <= 2; i++) {
             opDriver.navigate().to("http://Localhost/litecart");
             opDriver.findElements(By.cssSelector(".product")).get(0).click();
             if (areElementsPresent(opDriver, By.cssSelector("[name=\"options[Size]\"]"))) {
@@ -47,8 +46,12 @@ public class HW_2_8 {
             }
         }
         opDriver.findElement(By.cssSelector("a.link[href=\"http://localhost/litecart/en/checkout\"]")).click();
+
         int size = opDriver.findElements(By.cssSelector("td.item")).size();
         for (int j = size; j >= 1; j--) {
+            if(areElementsPresent(opDriver,By.cssSelector("a.inact"))){
+                opDriver.findElement(By.cssSelector("a.inact")).click();
+            }
             opDriver.findElement(By.cssSelector("[name=\"remove_cart_item\"]")).click();
             // мне не нравиться как это выглядит, есть ли более элегнтный способ ?
             if (wait.until(numberOfElementsToBeLessThan(By.cssSelector("td.item"), j)).size() != -1) {
