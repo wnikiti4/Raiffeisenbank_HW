@@ -28,7 +28,7 @@ public class HW_2_8 {
     @Test
     public void Test_1() {
         WebDriverWait wait = new WebDriverWait(opDriver, 10);
-        for (int i = 1; i <= 2; i++) {
+        for (int i = 1; i <= 3; i++) {
             opDriver.navigate().to("http://Localhost/litecart");
             opDriver.findElements(By.cssSelector(".product")).get(0).click();
             if (areElementsPresent(opDriver, By.cssSelector("[name=\"options[Size]\"]"))) {
@@ -58,47 +58,16 @@ public class HW_2_8 {
                 System.out.println("Товар удален");
             } else {
                 System.out.println("Все сломалось");
-                opDriver.close();
+                new failTest("Не нашелся элемент по селектору td.item");
             }
         }
         opDriver.close();
-    }
-
-
-    private void sortCheck(String href, String s, String attribute) {
-        opDriver.navigate().to(href);
-        List<WebElement> listCountry = opDriver.findElements(By.cssSelector(s));
-        List<String> sortCountry = new ArrayList<>();
-        List<String> country = new ArrayList<>();
-        for (WebElement var : listCountry) {
-            country.add(var.getAttribute(attribute));
-            sortCountry.add(var.getAttribute(attribute));
-        }
-        Collections.sort(sortCountry);
-        if (sortCountry.equals(country)) {
-            System.out.println("Done");
-        } else {
-            System.out.println("Не совпадают");
-        }
-
-    }
-
-    boolean listCheck(List<String> oneList, List<String> twoList) {
-        return true;
     }
 
     static class failTest extends Exception {
         public failTest(String message) {
             super(message);
         }
-    }
-
-    void loginToAdmin() {
-        opDriver.navigate().to(" http://localhost/litecart/admin/");
-        System.out.println("Открытие браузера");
-        opDriver.findElement(By.name("username")).sendKeys("admin");
-        opDriver.findElement(By.name("password")).sendKeys("admin");
-        opDriver.findElement(By.name("login")).click();
     }
 
     boolean areElementsPresent(WebDriver driver, By locator) {
