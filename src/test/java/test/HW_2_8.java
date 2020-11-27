@@ -4,47 +4,66 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.openqa.selenium.By;
+import org.openqa.selenium.Capabilities;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.opera.OperaDriver;
+import org.openqa.selenium.opera.OperaOptions;
+import org.openqa.selenium.remote.DesiredCapabilities;
+import org.openqa.selenium.remote.RemoteWebDriver;
+import org.openqa.selenium.support.events.AbstractWebDriverEventListener;
+import org.openqa.selenium.support.events.EventFiringWebDriver;
 import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.*;
 
 import static org.openqa.selenium.support.ui.ExpectedConditions.numberOfWindowsToBe;
 
 
 public class HW_2_8 {
-    private OperaDriver opDriver;
+    private EventFiringWebDriver opDriver;
 
     @Before
     public void start() {
-        opDriver = new OperaDriver();
+
+        opDriver = new EventFiringWebDriver(new OperaDriver());
+        opDriver.register(new MyListener());
 
     }
 
-    @Test
-    public void Test_1() {
-        WebDriverWait wait = new WebDriverWait(opDriver, 10);
-        loginToAdmin();
-        opDriver.navigate().to("http://localhost/litecart/admin/?app=countries&doc=countries");
-        opDriver.findElement(By.cssSelector("td[style=\"text-align: right;\"] a[href*=\"AF\"]")).click();
-        for(int i = 0; i < opDriver.findElements(By.cssSelector("form  [target=\"_blank\"]")).size();i++){
-            String mainWindow = opDriver.getWindowHandle();
-            Set<String> oldWindows = opDriver.getWindowHandles();
-            opDriver.findElements(By.cssSelector("form  [target=\"_blank\"]")).get(i).click();
-            wait.until(numberOfWindowsToBe(2));
-            Set<String> newWindows = opDriver.getWindowHandles();
-            // Получили XOR по 2 коллекциям
-            newWindows.removeAll(oldWindows);
-            // Получили ID новой страници
-            String idWindowNew = newWindows.iterator().next();
-            opDriver.switchTo().window(idWindowNew);
-            opDriver.close();
-            opDriver.switchTo().window(mainWindow);
+    public static class MyListener extends AbstractWebDriverEventListener {
+        @Override
+        public void beforeFindBy(By by, WebElement element, WebDriver driver) {
+            System.out.println(by);
         }
-        opDriver.close();
+
+        @Override
+        public void afterFindBy(By by, WebElement element, WebDriver driver) {
+            System.out.println(by +  " found");
+        }
+
+        @Override
+        public void onException(Throwable throwable, WebDriver driver) {
+            System.out.println(throwable);
+        }
+    }
+
+    @Test
+    public void Test_1() throws MalformedURLException {
+        DesiredCapabilities caps = new DesiredCapabilities();
+
+        caps.setCapability("os", "Windows");
+        caps.setCapability("os_version", "7");
+        caps.setCapability("browser", "Chrome");
+        caps.setCapability("browser_version", "79");
+        caps.setCapability("name", "bsuser750215555631's First Test");
+
+        WebDriver driver = new RemoteWebDriver(new URL(URL), caps);
+        opDriver.navigate().to("https://www.google.ru");
+        driver.quit();
     }
 
     public ExpectedCondition<String> anyWindowOtherThan(Set<String> oldWindows) {
