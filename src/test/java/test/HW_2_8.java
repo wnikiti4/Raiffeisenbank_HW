@@ -20,6 +20,7 @@ public class HW_2_8 {
     private OperaDriver opDriver;
     private List<WebElement> listEl;
     private List<WebElement> listProd;
+    private boolean flag =false;
 
     @Before
     public void start() {
@@ -50,12 +51,18 @@ public class HW_2_8 {
             passedElements = j;
             j = 0;
         }
+        if (flag) {
+            System.out.println("Логи были");
+        } else {
+            System.out.println("Логов нет");
+        }
         opDriver.close();
     }
 
     private void CheckLogs(WebDriver driver) {
         for (LogEntry l : driver.manage().logs().get("browser").getAll()) {
             System.out.println(l);
+            flag = true;
         }
     }
 
