@@ -14,16 +14,13 @@ import org.openqa.selenium.opera.OperaDriver;
 import java.util.StringTokenizer;
 
 public class HW_2_8 {
-    private OperaDriver opDriver;
+
     private ChromeDriver goDriver;
     private FirefoxDriver fiDriver;
     private InternetExplorerDriver ieDriver;
 
     @Before
     public void start() {
-        //opDriver = new OperaDriver();
-        //fiDriver = new FirefoxDriver();
-        //ieDriver = new InternetExplorerDriver();
     }
 
     @Test
@@ -57,7 +54,7 @@ public class HW_2_8 {
         String textRegularPriceMainPage = regularPriceMainPage.getAttribute("textContent");
         String colorRegularPriceMainPage = regularPriceMainPage.getCssValue("color");
         String textDecorationRegularPriceMainPage = regularPriceMainPage.getCssValue("text-decoration-line");
-        if(goDriver.getClass().toGenericString().indexOf("Explorer") >0) {textDecorationRegularPriceMainPage = regularPriceMainPage.getCssValue("text-decoration");};
+        if(goDriver.getClass().toGenericString().indexOf("Explorer") >0) {textDecorationRegularPriceMainPage = regularPriceMainPage.getCssValue("text-decoration");}
         String fontSizeRegularPriceMainPage = regularPriceMainPage.getCssValue("font-size");
         goDriver.findElement(By.cssSelector("#box-campaigns a.link")).click();
         WebElement campaignPriceItemPage = goDriver.findElement(By.cssSelector(".campaign-price"));
@@ -70,7 +67,7 @@ public class HW_2_8 {
         String textRegularPriceItemPage = regularPriceItemPage.getAttribute("textContent");
         String colorRegularPriceItemPage = regularPriceItemPage.getCssValue("color");
         String textDecorationPriceItemPage = regularPriceItemPage.getCssValue("text-decoration-line");
-        if(goDriver.getClass().toGenericString().indexOf("Explorer") >0) {textDecorationPriceItemPage = regularPriceItemPage.getCssValue("text-decoration");};
+        if(goDriver.getClass().toGenericString().indexOf("Explorer") >0) {textDecorationPriceItemPage = regularPriceItemPage.getCssValue("text-decoration");}
         String fontSizeRegularPriceItemPage = regularPriceItemPage.getCssValue("font-size");
         int[] RGBcolorRegularMainPage = parseRGBa(colorRegularPriceMainPage,goDriver);
         int[] RGBcolorRegularPriceItemPage = parseRGBa(colorRegularPriceItemPage,goDriver);
@@ -125,7 +122,7 @@ public class HW_2_8 {
         return Float.parseFloat(fontSize);
     }
     public int[] parseRGBa(String color, WebDriver webDriver){
-        String s1 = "";
+        String s1;
         String nameWebDriver=webDriver.getClass().toGenericString();
         if(webDriver.getClass().toGenericString().indexOf("Firefox") >0 ){s1 = color.substring(4);}else{
             s1 =color.substring(5);
@@ -136,16 +133,15 @@ public class HW_2_8 {
         int r = Integer.parseInt(st.nextToken(",").trim());
         int g = Integer.parseInt(st.nextToken(",").trim());
         int b = Integer.parseInt(st.nextToken(",").trim());
-        int RGB[]={r,g,b};
-        return RGB;
+        return new int[]{r,g,b};
     }
 
-    void loginToAdmin() {
-        opDriver.navigate().to(" http://localhost/litecart/admin/");
+    void loginToAdmin(WebDriver webDriver) {
+        webDriver.navigate().to(" http://localhost/litecart/admin/");
         System.out.println("Открытие браузера");
-        opDriver.findElement(By.name("username")).sendKeys("admin");
-        opDriver.findElement(By.name("password")).sendKeys("admin");
-        opDriver.findElement(By.name("login")).click();
+        webDriver.findElement(By.name("username")).sendKeys("admin");
+        webDriver.findElement(By.name("password")).sendKeys("admin");
+        webDriver.findElement(By.name("login")).click();
     }
 
     boolean areElementsPresent(WebDriver driver, By locator) {
