@@ -6,89 +6,138 @@ import org.junit.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.ie.InternetExplorerDriver;
 import org.openqa.selenium.opera.OperaDriver;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.util.StringTokenizer;
 
 public class HW_2_8 {
     private OperaDriver opDriver;
+    private ChromeDriver goDriver;
+    private FirefoxDriver fiDriver;
+    private InternetExplorerDriver ieDriver;
 
     @Before
     public void start() {
-        opDriver = new OperaDriver();
-
+        //opDriver = new OperaDriver();
+        //fiDriver = new FirefoxDriver();
+        //ieDriver = new InternetExplorerDriver();
     }
 
     @Test
     public void Test_1() {
-        String maskName = "b";
-        String maskCode = "00002";
-        String phone = '+'+ maskCode + maskCode;
-        String email = maskName+'@'+maskName+'.'+maskName;
-
- //       loginToAdmin();
-        String href = "http://localhost/litecart/en/create_account";
-        opDriver.navigate().to(href);
-       opDriver.findElement(By.cssSelector("input[name=\"firstname\"]")).sendKeys(maskName);
-        opDriver.findElement(By.cssSelector("input[name=\"lastname\"]")).sendKeys(maskName);
-        opDriver.findElement(By.cssSelector("input[name=\"address1\"]")).sendKeys(maskName);
-        opDriver.findElement(By.cssSelector("input[name=\"postcode\"]")).sendKeys(maskCode);
-        opDriver.findElement(By.cssSelector("input[name=\"city\"]")).sendKeys(maskCode);
-        opDriver.findElement(By.cssSelector(".select2-selection__arrow")).click();
-        opDriver.findElement(By.cssSelector("li[id*=\"US\"]")).click();
-        opDriver.findElement(By.cssSelector("input[name=\"email\"]")).sendKeys(email);
-        opDriver.findElement(By.cssSelector("input[name=\"phone\"]")).sendKeys(phone);
-        opDriver.findElement(By.cssSelector("input[name=\"password\"]")).sendKeys(phone);
-        opDriver.findElement(By.cssSelector("input[name=\"confirmed_password\"]")).sendKeys(phone);
-        opDriver.findElement(By.cssSelector("[name=\"create_account\"]")).click();
-        System.out.println("Пользователь зарегестрирован");
-        opDriver.findElement(By.cssSelector("a[href=\"http://localhost/litecart/en/logout\"]")).click();
-        System.out.println("Вышли");
-        opDriver.findElement(By.cssSelector("[name=\"email\"]")).sendKeys(email);
-        opDriver.findElement(By.cssSelector("[name=\"password\"]")).sendKeys(phone);
-        opDriver.findElement(By.cssSelector("[name=\"login\"]")).click();
-        System.out.println("Зашили");
-        opDriver.findElement(By.cssSelector("a[href=\"http://localhost/litecart/en/logout\"]")).click();
-        System.out.println("Вышли");
-        opDriver.close();
-        System.out.println("Закрытие браузера");
+        System.out.println("Проверка для InternetExplorer");
+        ieDriver = new InternetExplorerDriver();
+        TestDriver(ieDriver);
+        ieDriver.quit();
+        ieDriver = null;
+        System.out.println("Проверка для GoogleChrome");
+        goDriver = new ChromeDriver();
+        TestDriver(goDriver);
+        goDriver.quit();
+        goDriver = null;
+        System.out.println("Проверка для Firefox");
+        fiDriver = new FirefoxDriver();
+        TestDriver(fiDriver);
+        fiDriver.quit();
+        fiDriver = null;
     }
 
-    @Test
-    public void Test_2(){
-        loginToAdmin();
-
-    }
-
-
-    private void sortCheck(String href, String s, String attribute) {
-        opDriver.navigate().to(href);
-        List<WebElement> listCountry = opDriver.findElements(By.cssSelector(s));
-        List<String> sortCountry = new ArrayList<String>();
-        List<String> country = new ArrayList<String>();
-        for (WebElement var : listCountry) {
-            country.add(var.getAttribute(attribute));
-            sortCountry.add(var.getAttribute(attribute));
-        }
-        Collections.sort(sortCountry);
-        if (sortCountry.equals(country)) {
-            System.out.println("Done");
+    private void TestDriver(WebDriver goDriver) {
+        goDriver.navigate().to("http://localhost/litecart/en/");
+        WebElement campaignPriceMainPage = goDriver.findElement(By.cssSelector("#box-campaigns .campaign-price"));
+        String nameMainPage = goDriver.findElement(By.cssSelector("#box-campaigns .name")).getAttribute("textContent");
+        String textCampaignPriceMainPage = campaignPriceMainPage.getAttribute("textContent");
+        String colorCampaignPriceMainPage = campaignPriceMainPage.getCssValue("color");
+        String fontWeightCampaignPriceMainPage = campaignPriceMainPage.getCssValue("font-weight");
+        String fontSizeCampaignPriceMainPage = campaignPriceMainPage.getCssValue("font-size");
+        WebElement regularPriceMainPage = goDriver.findElement(By.cssSelector("#box-campaigns .regular-price"));
+        String textRegularPriceMainPage = regularPriceMainPage.getAttribute("textContent");
+        String colorRegularPriceMainPage = regularPriceMainPage.getCssValue("color");
+        String textDecorationRegularPriceMainPage = regularPriceMainPage.getCssValue("text-decoration-line");
+        if(goDriver.getClass().toGenericString().indexOf("Explorer") >0) {textDecorationRegularPriceMainPage = regularPriceMainPage.getCssValue("text-decoration");};
+        String fontSizeRegularPriceMainPage = regularPriceMainPage.getCssValue("font-size");
+        goDriver.findElement(By.cssSelector("#box-campaigns a.link")).click();
+        WebElement campaignPriceItemPage = goDriver.findElement(By.cssSelector(".campaign-price"));
+        String nameItemPage = goDriver.findElement(By.cssSelector("#box-product .title")).getAttribute("textContent");
+        String textCampaignPriceItemPage = campaignPriceItemPage.getAttribute("textContent");
+        String colorCampaignPriceItemPage = campaignPriceItemPage.getCssValue("color");
+        String fontWeightCampaignPriceItemPage = campaignPriceItemPage.getCssValue("font-weight");
+        String fontSizeCampaignPriceItemPage = campaignPriceItemPage.getCssValue("font-size");
+        WebElement regularPriceItemPage = goDriver.findElement(By.cssSelector(".regular-price"));
+        String textRegularPriceItemPage = regularPriceItemPage.getAttribute("textContent");
+        String colorRegularPriceItemPage = regularPriceItemPage.getCssValue("color");
+        String textDecorationPriceItemPage = regularPriceItemPage.getCssValue("text-decoration-line");
+        if(goDriver.getClass().toGenericString().indexOf("Explorer") >0) {textDecorationPriceItemPage = regularPriceItemPage.getCssValue("text-decoration");};
+        String fontSizeRegularPriceItemPage = regularPriceItemPage.getCssValue("font-size");
+        int[] RGBcolorRegularMainPage = parseRGBa(colorRegularPriceMainPage,goDriver);
+        int[] RGBcolorRegularPriceItemPage = parseRGBa(colorRegularPriceItemPage,goDriver);
+        int[] RGBcolorCampaignPriceMainPage = parseRGBa(colorCampaignPriceMainPage,goDriver);
+        int[] RGBcolorCampaignPriceItemPage = parseRGBa(colorCampaignPriceItemPage,goDriver);
+        if (nameItemPage.equals(nameMainPage)){
+            System.out.println("1) Имена совпадают");
         } else {
-            System.out.println("Не совпадают");
+            System.out.println("Имена не совпадают");
+        }
+        if (textCampaignPriceItemPage.equals(textCampaignPriceMainPage)) {
+            System.out.println("2) Цена акции совпадает");
+        } else {
+            System.out.println("Цена акции не совпадает");
+        }
+        if (textRegularPriceItemPage.equals(textRegularPriceMainPage)){
+            System.out.println("3) Обычная цена совпадает");
+        } else {
+            System.out.println("Обычая цена не совпадает");
         }
 
-    }
-
-    boolean listCheck(List<String> oneList, List<String> twoList) {
-        return true;
-    }
-
-    static class failTest extends Exception {
-        public failTest(String message) {
-            super(message);
+        if((textDecorationRegularPriceMainPage.equals("line-through"))&&(RGBcolorRegularMainPage[0]== RGBcolorRegularMainPage[1])&&(RGBcolorRegularMainPage[1]== RGBcolorRegularMainPage[2])){
+            System.out.println("4) На главной странице цена зачеркнута и сера");
         }
+        if((textDecorationPriceItemPage.equals("line-through"))
+                &&(RGBcolorRegularPriceItemPage[0]== RGBcolorRegularPriceItemPage[1])
+                &&(RGBcolorRegularPriceItemPage[1]== RGBcolorRegularPriceItemPage[2])){
+            System.out.println("5) На страницу товара цена зачеркнута и сера");
+        }
+        if((fontWeightCampaignPriceMainPage.equals("700")
+                ||(fontWeightCampaignPriceMainPage.equals("900")))
+                &&(RGBcolorCampaignPriceMainPage[0] > 1)
+                &&(RGBcolorCampaignPriceMainPage[1] == 0)&&(RGBcolorCampaignPriceMainPage[2] == 0)){
+            System.out.println("6) На главной странице цена красная и жирная");
+        }
+        if((fontWeightCampaignPriceItemPage.equals("700"))
+                ||(fontWeightCampaignPriceMainPage.equals("900"))
+                &&(RGBcolorCampaignPriceItemPage[0] > 1)
+                &&(RGBcolorCampaignPriceItemPage[1] == 0)&&(RGBcolorCampaignPriceItemPage[2] == 0)){
+            System.out.println("7) На странице товара красная и жирная");
+        }
+        if(parsefontSize(fontSizeCampaignPriceMainPage) > parsefontSize(fontSizeRegularPriceMainPage)){
+            System.out.println("8) Размер цена со скидкой больше на галвной странице");
+        }
+        if(parsefontSize(fontSizeCampaignPriceItemPage) > parsefontSize(fontSizeRegularPriceItemPage)){
+            System.out.println("9) Размер цена со скидкой больше на странице товара");
+        }
+    }
+
+    public float parsefontSize(String fontSize){
+        fontSize=fontSize.replace("px","");
+        return Float.parseFloat(fontSize);
+    }
+    public int[] parseRGBa(String color, WebDriver webDriver){
+        String s1 = "";
+        String nameWebDriver=webDriver.getClass().toGenericString();
+        if(webDriver.getClass().toGenericString().indexOf("Firefox") >0 ){s1 = color.substring(4);}else{
+            s1 =color.substring(5);
+        }
+
+        color = s1.replace(')', ' ');
+        StringTokenizer st = new StringTokenizer(color);
+        int r = Integer.parseInt(st.nextToken(",").trim());
+        int g = Integer.parseInt(st.nextToken(",").trim());
+        int b = Integer.parseInt(st.nextToken(",").trim());
+        int RGB[]={r,g,b};
+        return RGB;
     }
 
     void loginToAdmin() {
@@ -105,8 +154,5 @@ public class HW_2_8 {
 
     @After
     public void stop() {
-        opDriver.quit();
-        opDriver = null;
     }
-
 }
