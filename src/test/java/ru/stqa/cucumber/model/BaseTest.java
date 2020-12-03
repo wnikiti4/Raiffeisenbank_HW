@@ -1,8 +1,8 @@
-package test.model;
+package ru.stqa.cucumber.model;
 
 import org.junit.After;
 import org.junit.Before;
-import test.app.App;
+import ru.stqa.cucumber.app.App;
 
 public class BaseTest {
     public App app;

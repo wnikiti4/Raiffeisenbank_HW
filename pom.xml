@@ -6,6 +6,7 @@
     <properties>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
+        <cucumber.version>6.8.1</cucumber.version>
     </properties>
     <groupId>org.example</groupId>
     <artifactId>Test_maven</artifactId>
@@ -18,7 +19,16 @@
             <artifactId>selenium-java</artifactId>
             <version>3.141.59</version>
         </dependency>
-
+        <dependency>
+            <groupId>io.cucumber</groupId>
+            <artifactId>cucumber-java8</artifactId>
+            <version>${cucumber.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>io.cucumber</groupId>
+            <artifactId>cucumber-junit</artifactId>
+            <version>${cucumber.version}</version>
+        </dependency>
 
         <!-- https://mvnrepository.com/artifact/com.tngtech.java/junit-dataprovider -->
         <dependency>
@@ -51,6 +61,7 @@
     </dependencies>
 
     <dependencyManagement>
+
         <dependencies>
             <!-- https://mvnrepository.com/artifact/org.testng/testng -->
             <dependency>
@@ -88,6 +99,16 @@
                 <groupId>com.tngtech.java</groupId>
                 <artifactId>config-builder</artifactId>
                 <version>1.6.0</version>
+            </dependency>
+            <dependency>
+                <groupId>io.cucumber</groupId>
+                <artifactId>cucumber-java8</artifactId>
+                <version>${cucumber.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.cucumber</groupId>
+                <artifactId>cucumber-junit</artifactId>
+                <version>${cucumber.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

@@ -1,4 +1,4 @@
-package test.page;
+package ru.stqa.cucumber.page;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -47,14 +47,13 @@ public class ChooseItemPage {
 
     }
 
-    public void addCheck(ChooseItemPage chooseItemPage, int oldNumberItem) {
+    public boolean addCheck(ChooseItemPage chooseItemPage, int oldNumberItem) {
         if (wait.until(attributeToBe(chooseItemPage.counter(),
                 "textContent",
                 Integer.toString(oldNumberItem + 1)))) {
-            System.out.println("Товар добавлен");
+            return true;
         } else {
-            System.out.println("Чет не добавилось");
-            driver.close();
+            return false;
         }
     }
 

@@ -1,10 +1,11 @@
-package test.page;
+package ru.stqa.cucumber.page;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static org.openqa.selenium.support.ui.ExpectedConditions.numberOfElementsToBeLessThan;
@@ -56,14 +57,17 @@ public class RemovingItemsPage {
     }
 
     // мне не нравиться как это выглядит, есть ли более элегнтный способ ?
-    public void checkDelate(RemovingItemsPage removingItemsPage, int j) {
+    public boolean checkDelate(RemovingItemsPage removingItemsPage, int j) {
+        boolean deleteCheck = true;
         if (wait.until(numberOfElementsToBeLessThan(removingItemsPage.byItems(), j)).size() != -1) {
-            System.out.println("Товар удален");
+            deleteCheck = deleteCheck&true;
         } else {
-            System.out.println("Все сломалось");
             new failTest("Не нашелся элемент по селектору td.item");
+            deleteCheck = deleteCheck&false;
         }
+        return deleteCheck;
     }
+
 
     private static class failTest extends Throwable {
         public failTest(String message) {

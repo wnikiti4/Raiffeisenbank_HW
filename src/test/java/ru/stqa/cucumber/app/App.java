@@ -1,17 +1,17 @@
-package test.app;
+package ru.stqa.cucumber.app;
 
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.opera.OperaDriver;
 import org.openqa.selenium.support.ui.WebDriverWait;
-import test.page.ChooseItemPage;
-import test.page.MainPage;
-import test.page.RemovingItemsPage;
+import ru.stqa.cucumber.page.ChooseItemPage;
+import ru.stqa.cucumber.page.MainPage;
+import ru.stqa.cucumber.page.RemovingItemsPage;
 
 public class App {
 
     private WebDriver opDriver;
     private final WebDriverWait wait;
-
+    private boolean chek;
     public App() {
         opDriver = new OperaDriver();
         wait = new WebDriverWait(opDriver, 10);
@@ -37,9 +37,18 @@ public class App {
         chooseItemPage.selectSizeByIndex(1);
         int oldNumberItem = Integer.parseInt(chooseItemPage.attributeItemСounter());
         chooseItemPage.buttonAddItem().click();
-        chooseItemPage.addCheck(chooseItemPage, oldNumberItem);
-    }
+        chek =chooseItemPage.addCheck(chooseItemPage, oldNumberItem);
 
+    }
+    public boolean ChekItem(){
+      /// дописать проверку на выбор эелемента
+        return chek;
+    }
+    public boolean ChekItemDelete(){
+        /// дописать проверку на выбор эелемента
+        opDriver.quit();
+        return chek;
+    }
 
     public void removingItems() {
         RemovingItemsPage removingItemsPage = new RemovingItemsPage(opDriver, wait);
@@ -48,7 +57,7 @@ public class App {
         for (int j = size; j >= 1; j--) {
             removingItemsPage.ClickingOnTheImage(removingItemsPage);
             removingItemsPage.buttonRemove().click();
-            removingItemsPage.checkDelate(removingItemsPage, j);
+            chek = removingItemsPage.checkDelate(removingItemsPage, j);
         }
     }
 

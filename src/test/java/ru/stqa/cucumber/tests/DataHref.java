@@ -1,4 +1,4 @@
-package test.tests;
+package ru.stqa.cucumber.tests;
 
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.WebDriverWait;

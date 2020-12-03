@@ -1,10 +1,10 @@
-package test.tests;
+package ru.stqa.cucumber.tests;
 
 import com.tngtech.java.junit.dataprovider.DataProviderRunner;
 import com.tngtech.java.junit.dataprovider.UseDataProvider;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import test.model.BaseTest;
+import ru.stqa.cucumber.model.BaseTest;
 
 
 @RunWith(DataProviderRunner.class)

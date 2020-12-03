@@ -1,4 +1,4 @@
-package test.tests;
+package ru.stqa.cucumber.tests;
 
 import com.tngtech.java.junit.dataprovider.DataProvider;
 
