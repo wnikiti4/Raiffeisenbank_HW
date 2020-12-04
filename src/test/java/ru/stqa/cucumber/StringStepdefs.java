@@ -11,12 +11,13 @@ public class StringStepdefs  implements En {
         Given("Open site",()->{
             app = new App();
         });
-        When("adding item to cart",()->{
-            app.addItem();
+        When("adding {string} item to cart",(String step)->{
+            for (int i = 0; i<Integer.parseInt(step); i++ ) {
+                app.addItem();
+                app.chooseItem();
+            }
         });
-        When("choose setting item",()->{
-            app.chooseItem();
-        });
+
         Then("item counter has changed",() ->{
            Assert.assertEquals(app.ChekItem(),true);
         });
