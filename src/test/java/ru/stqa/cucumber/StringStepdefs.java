@@ -11,8 +11,8 @@ public class StringStepdefs  implements En {
         Given("Open site",()->{
             app = new App();
         });
-        When("adding item to cart",()->{
-            app.addItem();
+        When("adding 3 item to cart",()->{
+            for(int i = 0 ; i< 3 ; i ++) app.addItem();
         });
         When("choose setting item",()->{
             app.chooseItem();
