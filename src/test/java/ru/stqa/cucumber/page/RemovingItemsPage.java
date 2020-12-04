@@ -56,9 +56,7 @@ public class RemovingItemsPage {
         removingItemsPage.product().click();
     }
 
-    // мне не нравиться как это выглядит, есть ли более элегнтный способ ?
-    public boolean checkDelate(RemovingItemsPage removingItemsPage, int j) {
-        boolean deleteCheck = true;
+    public boolean checkDelate(RemovingItemsPage removingItemsPage, int j,boolean deleteCheck) {
         if (wait.until(numberOfElementsToBeLessThan(removingItemsPage.byItems(), j)).size() != -1) {
             deleteCheck = deleteCheck&true;
         } else {

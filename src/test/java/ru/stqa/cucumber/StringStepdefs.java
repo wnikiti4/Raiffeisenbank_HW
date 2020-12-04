@@ -27,5 +27,8 @@ public class StringStepdefs  implements En {
         Then("items removed from the cart",()->{
             Assert.assertEquals(app.ChekItemDelete(),true);
         });
+        Then("out site and close driver",()->{
+            app.driverQuit();
+        });
     }
 }

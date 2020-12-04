@@ -11,7 +11,8 @@ public class App {
 
     private WebDriver opDriver;
     private final WebDriverWait wait;
-    private boolean chek;
+    private boolean chooseItemChek;
+    private boolean deleteItemChek = true;
     public App() {
         opDriver = new OperaDriver();
         wait = new WebDriverWait(opDriver, 10);
@@ -37,17 +38,14 @@ public class App {
         chooseItemPage.selectSizeByIndex(1);
         int oldNumberItem = Integer.parseInt(chooseItemPage.attributeItemСounter());
         chooseItemPage.buttonAddItem().click();
-        chek =chooseItemPage.addCheck(chooseItemPage, oldNumberItem);
+        chooseItemChek =chooseItemPage.addCheck(chooseItemPage, oldNumberItem);
 
     }
     public boolean ChekItem(){
-      /// дописать проверку на выбор эелемента
-        return chek;
+        return chooseItemChek;
     }
     public boolean ChekItemDelete(){
-        /// дописать проверку на выбор эелемента
-        opDriver.quit();
-        return chek;
+        return deleteItemChek;
     }
 
     public void removingItems() {
@@ -57,8 +55,12 @@ public class App {
         for (int j = size; j >= 1; j--) {
             removingItemsPage.ClickingOnTheImage(removingItemsPage);
             removingItemsPage.buttonRemove().click();
-            chek = removingItemsPage.checkDelate(removingItemsPage, j);
+            deleteItemChek = removingItemsPage.checkDelate(removingItemsPage, j, deleteItemChek);
         }
+    }
+    public void driverQuit(){
+        opDriver.quit();
+        opDriver = null;
     }
 
 }
